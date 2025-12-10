@@ -1,75 +1,55 @@
-import { Moon, Sun, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Bell, Sparkles } from "lucide-react";
 
-interface HeaderProps {
-  darkMode: boolean;
-  toggleTheme: () => void;
-}
+function Header() {
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
 
-export default function Header({ darkMode, toggleTheme }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date().toLocaleTimeString());
+    }, 1000);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setMobileMenuOpen(false);
-    }
-  };
+    return () => clearInterval(timer);
+  }, []);
 
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 transition-colors duration-500">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Portfolio
+    return (
+      <div className="fixed inset-x-0 top-0 z-40 bg-slate-100/80 backdrop-blur supports-[backdrop-filter]:bg-slate-100/70 border-b border-slate-200">
+        <header className="mx-auto w-full max-w-6xl flex items-center justify-between px-6 py-4">
+ 
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition">
+            {/* Logo */}
+            <img src="/image/logo.jpeg" alt="StratSync Logo" className="h-8 w-8 rounded-full" />
+            
+            <div className="flex flex-col">
+              <span className="text-lg font-semibold text-slate-900">
+                StratSync
+              </span>
+              <span className="text-xs text-slate-500">
+                Revenue Intelligence Dashboard
+              </span>
+            </div>
+          </Link>
+
+        
+        <div className="flex items-center gap-6">
+    
+          <div className="flex items-center text-sm text-slate-500 gap-2">
+            <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+            <span className="font-medium text-slate-700">Live</span>
+            <span className="text-slate-400">•</span>
+            <span>{time}</span>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollToSection('home')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</button>
-            <button onClick={() => scrollToSection('about')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</button>
-            <button onClick={() => scrollToSection('skills')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Skills</button>
-            <button onClick={() => scrollToSection('projects')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Projects</button>
-            <button onClick={() => scrollToSection('contact')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</button>
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-          </nav>
-
-          <div className="md:hidden flex items-center space-x-2">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          
+          <button className="inline-flex items-center gap-2 ">
+            <Bell className="h-4 w-4" />
+           
+          </button>
         </div>
-      </div>
-
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
-          <nav className="flex flex-col space-y-4 px-4 py-4">
-            <button onClick={() => scrollToSection('home')} className="text-left hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</button>
-            <button onClick={() => scrollToSection('about')} className="text-left hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</button>
-            <button onClick={() => scrollToSection('skills')} className="text-left hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Skills</button>
-            <button onClick={() => scrollToSection('projects')} className="text-left hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Projects</button>
-            <button onClick={() => scrollToSection('contact')} className="text-left hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</button>
-          </nav>
-        </div>
-      )}
-    </header>
+      </header>
+    </div>
   );
 }
+
+export default Header;

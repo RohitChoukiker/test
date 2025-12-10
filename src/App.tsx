@@ -1,41 +1,32 @@
-import { useEffect, useState } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import HeaderSlider from "./components/HeaderSlider";
+import DataIngestionContent from "./components/DataIngestionContent";
+import OverviewContent from "./components/OverviewContent";
 
-function App() {
-  const [darkMode, setDarkMode] = useState(true);
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setDarkMode(savedTheme === 'dark');
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
-
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-  };
+const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<"overview" | "dataIngestion">(
+    "overview"
+  );
 
   return (
-    <div className={darkMode ? 'dark' : ''}>
-      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
-        <Header darkMode={darkMode} toggleTheme={toggleTheme} />
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <Header />
+
+      <div className="mx-auto max-w-7xl px-4 pt-28 pb-6 lg:px-8 space-y-6">
+        {/* Tabs */}
+        <HeaderSlider activeTab={activeTab} onChange={setActiveTab} />
+
+        {/* Content based on tab */}
+        {activeTab === "overview" ? (
+          <OverviewContent />
+        ) : (
+          <DataIngestionContent />
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default App;
