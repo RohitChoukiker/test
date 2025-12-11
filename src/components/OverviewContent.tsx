@@ -177,10 +177,10 @@ const OverviewContent: React.FC = () => {
 
       {/* Middle row */}
       <div className="grid gap-4" style={{ gridTemplateColumns: "2fr 1fr" }}>
-        <div className="h-96 overflow-y-auto">
+        <div className="h-2/3 overflow-y-auto">
           <SignalsSection signals={signals} />
         </div>
-        <div className="h-96 overflow-y-auto">
+        <div className="h-2/3 overflow-y-auto">
           <ActivitySection activities={activities} />
         </div>
       </div>
